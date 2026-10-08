@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set Some Variables
-current_git_commit=$(git rev-parse HEAD)
+current_git_commit=$(git rev-parse HEAD 2>/dev/null || true)
 
 weather=$(curl -s "wttr.in/?format=3")
 current_os=$(uname -s)
@@ -12,7 +12,26 @@ if [ "$(curl -s "https://api.github.com/repos/BrandosFotos/SchoolTools/commits/m
     echo "An update is available for the repository. Would you like to update now?"
     read -p "Enter Y to update or N to continue without updating: " update_choice
     if [[ "$update_choice" == "Y" || "$update_choice" == "y" ]]; then
-        git pull origin master
+
+        # If this directory is not a git checkout, clone the repository
+        if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            git clone https://github.com/BrandosFotos/SchoolTools.git
+            rm main.sh
+            echo "--------------------------------"
+            echo "Tools are updated into the SchoolTools directory"
+            echo "Removed the old main.sh file"
+            echo "--------------------------------"
+            sleep 5
+            exit 0
+        else
+            git pull origin master
+            echo "--------------------------------"
+            echo "Tools are updated"
+            echo "--------------------------------"
+            sleep 5
+            exit 0
+        fi
+
         exit 0
     fi
 fi
@@ -130,6 +149,7 @@ while [ "$tool" != "0" ]; do
         echo "1. Install Common Apps using homebrew"
         echo "2. Install Dev Tools"
         echo "3. Setup Zshrc"
+        echo "4. Install My NVIM config"
         echo "0. Exit"
         echo "--------------------------------"
 
@@ -153,6 +173,13 @@ while [ "$tool" != "0" ]; do
             brew install starship -y
             starship preset gruvbox-rainbow -o ~/.config/starship.toml --force
             echo 'eval "$(starship init zsh)"' >> ~/.zshrc && source ~/.zshrc
+            continue
+
+        elif [ "$tool" == "4" ]; then
+            echo "Setting up NVIM config"
+            git clone https://github.com/BrandosFotos/nvim.git ~/.config/nvim
+            sleep 5
+            continue
         fi
 
     elif [[ "$os" == "linux" ]]; then
@@ -164,6 +191,10 @@ while [ "$tool" != "0" ]; do
         echo "1. Install my NVIM setup"
         echo "--------------------------------"
         read -p "Enter the number of the tool you want to install: " tool
+
+        if ["$tool" == "1" ]; then
+          git clone https://github.com/BrandosFotos/nvim.git ~/.config/nvim
+        fi
 
 
 
