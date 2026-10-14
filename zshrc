@@ -1,16 +1,5 @@
-export PATH=/opt/homebrew/bin:$PATH
-
-export PATH="$PATH:/Users/brandonwhite/.local/bin"
-
 export TERM=xterm-256color
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-
-
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-
 
 # Alias definitions
 alias vi='nvim'

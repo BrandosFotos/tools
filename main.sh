@@ -189,11 +189,20 @@ while [ "$tool" != "0" ]; do
         echo "--------------------------------"
         echo "0. Exit"
         echo "1. Install my NVIM setup"
+        echo "2. Install BashRC config from zshrc"
         echo "--------------------------------"
         read -p "Enter the number of the tool you want to install: " tool
 
-        if ["$tool" == "1" ]; then
+        if [ "$tool" == "1" ]; then
           git clone https://github.com/BrandosFotos/nvim.git ~/.config/nvim
+          sleep 3
+
+        elif [ "$tool" == "2" ]; then
+          cat zshrc >> ~/.bashrc
+          echo "BashRC config from zshrc installed"
+          echo "--------------------------------"
+          sleep 3
+          continue
         fi
 
 
