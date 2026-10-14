@@ -2,13 +2,14 @@
 
 # Set Some Variables
 current_git_commit=$(git rev-parse HEAD 2>/dev/null || true)
+current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
 weather=$(curl -s "wttr.in/?format=3")
 current_os=$(uname -s)
 repo="BrandosFotos/tools"
 
 
 # Simple self-update check
-if [ "$(curl -s "https://api.github.com/repos/$repo/commits/master" | grep '"sha":' | head -n 1 | awk -F '"' '{print $4}')" != "$current_git_commit" ]; then
+if [[ "$(curl -s "https://api.github.com/repos/$repo/commits/master" | grep '"sha":' | head -n 1 | awk -F '"' '{print $4}')" != "$current_git_commit" && "$current_branch" == "master" ]]; then
     echo "An update is available for the repository. Would you like to update now?"
     read -p "Enter Y to update or N to continue without updating: " update_choice
     if [[ "$update_choice" == "Y" || "$update_choice" == "y" ]]; then
@@ -122,6 +123,9 @@ while [ "$tool" != "0" ]; do
             continue
         fi
 
+
+
+
     elif [[ "$os" == "mac" ]]; then
 
         # Clear the screen then prepare homebrew
@@ -145,6 +149,7 @@ while [ "$tool" != "0" ]; do
         echo "3. Setup Zshrc"
         echo "4. Install My NVIM config"
         echo "0. Exit"
+        echo "Current branch: $is_dev_branch"
         echo "--------------------------------"
 
         # collect user's choice tool
@@ -175,6 +180,9 @@ while [ "$tool" != "0" ]; do
             sleep 5
             continue
         fi
+
+
+
 
     elif [[ "$os" == "linux" ]]; then
         echo "--------------------------------"
