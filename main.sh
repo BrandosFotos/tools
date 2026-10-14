@@ -5,20 +5,21 @@ current_git_commit=$(git rev-parse HEAD 2>/dev/null || true)
 
 weather=$(curl -s "wttr.in/?format=3")
 current_os=$(uname -s)
+repo="BrandosFotos/tools"
 
 
 # Simple self-update check
-if [ "$(curl -s "https://api.github.com/repos/BrandosFotos/SchoolTools/commits/master" | grep '"sha":' | head -n 1 | awk -F '"' '{print $4}')" != "$current_git_commit" ]; then
+if [ "$(curl -s "https://api.github.com/repos/$repo/commits/master" | grep '"sha":' | head -n 1 | awk -F '"' '{print $4}')" != "$current_git_commit" ]; then
     echo "An update is available for the repository. Would you like to update now?"
     read -p "Enter Y to update or N to continue without updating: " update_choice
     if [[ "$update_choice" == "Y" || "$update_choice" == "y" ]]; then
 
         # If this directory is not a git checkout, clone the repository
         if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-            git clone https://github.com/BrandosFotos/SchoolTools.git
+            git clone https://github.com/$repo.git
             rm main.sh
             echo "--------------------------------"
-            echo "Tools are updated into the SchoolTools directory"
+            echo "Tools are updated into the tools directory"
             echo "Removed the old main.sh file"
             echo "--------------------------------"
             sleep 5
