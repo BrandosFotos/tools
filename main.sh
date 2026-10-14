@@ -2,7 +2,6 @@
 
 # Set Some Variables
 current_git_commit=$(git rev-parse HEAD 2>/dev/null || true)
-
 weather=$(curl -s "wttr.in/?format=3")
 current_os=$(uname -s)
 repo="BrandosFotos/tools"
@@ -71,8 +70,6 @@ while [ "$tool" != "0" ]; do
     # get the OS system
     if [[ "$os" == "windows" ]]; then
         clear
-
-
         echo "--------------------------------"
         echo "$weather"
         echo "|" $os "|" $HOSTNAME "|" $USER "|" $PWD "|" # This looks rough, come back to properly format it
@@ -123,13 +120,9 @@ while [ "$tool" != "0" ]; do
             chsh -s $(which zsh)
 
             continue
-
         fi
 
-
-
     elif [[ "$os" == "mac" ]]; then
-
 
         # Clear the screen then prepare homebrew
         # IF homebrew is not installed, install it. 
@@ -205,19 +198,8 @@ while [ "$tool" != "0" ]; do
           sleep 3
           continue
         fi
-
-
-
-
     fi
-
-
-
-
-
 done
 
 
 exit 0
-
-
